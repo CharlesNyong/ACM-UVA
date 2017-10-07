@@ -1,0 +1,73 @@
+import java.util.*;
+/*
+ * My solution to the Credit Check problem of 
+ * the ACM Local programming contest held on Oct. 6 2017
+ * 
+ * */
+
+public class Credit_check {
+	private static ArrayList<Integer> List;
+	private static ArrayList<Integer> List2;
+	public static int processFromBack(String input){
+		StringTokenizer tokens = new StringTokenizer(input, " ");
+		int sum = 0;
+		int firstDig =0;
+		int secondDig;
+		while(tokens.hasMoreTokens()){
+			String data = tokens.nextToken();
+			for(int i=(data.length() - 2); i>=0; i-=2){
+				int doubled = Character.getNumericValue(data.charAt(i));
+				doubled *=2;
+				if(!Character.isDigit(doubled)){
+					 firstDig = (doubled/10);
+					secondDig = (doubled%10);
+					firstDig += secondDig;
+					sum += firstDig;
+				}
+				else{
+					sum += doubled;
+				}
+			}
+		}
+		return sum;
+	}
+	
+	public static int processFromFront(String data){
+		StringTokenizer tokens = new StringTokenizer(data, " ");
+		int sum = 0;
+		while(tokens.hasMoreTokens()){
+			String val = tokens.nextToken();
+			for(int i=1; i<val.length(); i+=2){
+				int intVal = Character.getNumericValue(val.charAt(i));
+				sum += intVal;
+			}
+		}
+		return sum;
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner reader = new Scanner(System.in);
+		int NumOfCase = Integer.parseInt(reader.nextLine());
+		List = new ArrayList<Integer>();
+		List2 = new ArrayList<Integer>();
+		int result1, result2;
+		String output = "";
+		for(int i=1; i<=NumOfCase; i++){
+			String line = reader.nextLine();
+			result1 = processFromBack(line);
+			result2 = processFromFront(line);
+			result1 +=result2;
+			if((result1%10) > 0 || (result1%10) < 0){
+				output += "Invalid" + "\n";
+			}
+			else{
+				output += "Valid" + "\n";
+			}
+		}
+		System.out.println();
+		System.out.println(output);
+	}
+
+}
+
